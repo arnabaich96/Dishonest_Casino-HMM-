@@ -1,0 +1,69 @@
+---
+title: "Homework_8"
+author: "Arnab Aich"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+library(readr)
+```
+# Import Data
+```{r}
+pb1 <- read_csv("D:/OneDrive - Florida State University/MyFSU_OneDrive/FSU Course Work/5635/Datasets/hmm_pb1.csv", 
+    col_names = FALSE)
+
+```
+
+```{r}
+library(HMM)
+
+# Set up the model parameters
+# A is the transition probability matrix
+# B is the emission probability matrix
+# pi is the initial state probability vector
+A <- matrix(c(0.95, 0.05, 0.10, 0.90), nrow=2, byrow=TRUE)
+B <- matrix(c(1/6, 1/6, 1/6, 1/6, 1/6, 1/2, 1/10, 1/10, 1/10, 1/10, 1/10, 1/2), nrow=2, byrow=TRUE)
+pi <- c(0.5, 0.5)
+
+# Create the model object
+casino_model <- initHMM(pi=pi, A=A, B=B)
+
+# Generate some observations from the model
+set.seed(123)
+observations <- rHMM(n=1000, model=casino_model)
+
+# Fit the model to the observations
+fit <- BaumWelch(observations, model=casino_model)
+
+# Print the estimated transition matrix
+cat("Estimated transition matrix:")
+print(fit$A)
+
+# Print the estimated emission matrix
+cat("Estimated emission matrix:")
+print(fit$B)
+
+# Print the estimated initial state probability vector
+cat("Estimated initial state probability vector:")
+print(fit$pi)
+
+# Predict the state sequence for a new set of observations
+new_observations <- rHMM(n=10, model=casino_model)
+state_seq <- viterbi(new_observations, model=casino_model)
+
+# Print the predicted state sequence
+cat("Predicted state sequence:")
+print(state_seq)
+
+```
+
+
+
+
+```{r}
+pb2 <- read_csv("D:/OneDrive - Florida State University/MyFSU_OneDrive/FSU Course Work/5635/Datasets/hmm_pb2.csv", 
+    col_names = FALSE)
+```
+
+
