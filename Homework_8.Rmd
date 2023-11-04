@@ -1,5 +1,5 @@
 ---
-title: "Homework_8"
+title: "Dishonest Casino Model"
 author: "Arnab Aich"
 date: "`r Sys.Date()`"
 output: pdf_document
